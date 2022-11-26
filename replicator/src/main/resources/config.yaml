@@ -5,12 +5,10 @@ application:
 kafka:
   source:
     bootstrap-servers: "localhost-source:9092"
-    topic:
-      name: "source-topic"
+    topic: "source-topic"
   destination:
     bootstrap-servers: "localhost-destination:9092"
-    topic:
-      name: "destination-topic"
+    topic: "destination-topic"
 
 streams:
   replication-factor: "3"

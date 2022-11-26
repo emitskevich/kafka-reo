@@ -1,5 +1,13 @@
 package com.github.emitskevich;
 
+import com.github.emitskevich.core.config.AppConfig;
+import com.github.emitskevich.core.server.Initializable;
+import com.github.emitskevich.core.server.ServerContext;
+import com.github.emitskevich.core.server.Shutdownable;
+import com.github.emitskevich.core.server.Startable;
+import com.github.emitskevich.core.utils.SimpleScheduler;
+import com.github.emitskevich.kafka.KafkaClients;
+import com.github.emitskevich.kafka.KafkaClients.ConsumerPair;
 import com.github.emitskevich.utils.LagMonitor;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -15,14 +23,6 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.TopicPartition;
-import com.github.emitskevich.core.config.AppConfig;
-import com.github.emitskevich.core.server.Initializable;
-import com.github.emitskevich.core.server.ServerContext;
-import com.github.emitskevich.core.server.Shutdownable;
-import com.github.emitskevich.core.server.Startable;
-import com.github.emitskevich.core.utils.SimpleScheduler;
-import com.github.emitskevich.kafka.KafkaClients;
-import com.github.emitskevich.kafka.KafkaClients.ConsumerPair;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +46,8 @@ public abstract class ConsumerTopology implements Initializable, Shutdownable, S
   protected String sourceTopic;
   private String destinationTopic;
 
-  ConsumerTopology(AppConfig appConfig, String sourceName, String destinationName, Duration delay) {
+  protected ConsumerTopology(AppConfig appConfig, String sourceName, String destinationName,
+      Duration delay) {
     this.sourceName = sourceName;
     this.destinationName = destinationName;
     this.lagMonitor = new LagMonitor(sourceName, destinationName, appConfig);
@@ -65,8 +66,8 @@ public abstract class ConsumerTopology implements Initializable, Shutdownable, S
     this.consumerRebalanceListener = consumerPair.listener();
 
     this.producer = kafkaClients.getProducer(destinationName);
-    this.sourceTopic = appConfig.getString("kafka." + sourceName + ".name");
-    this.destinationTopic = appConfig.getString("kafka." + destinationName + ".name");
+    this.sourceTopic = appConfig.getString("kafka.source.name");
+    this.destinationTopic = appConfig.getString("kafka.destination.name");
 
     lagMonitor.setGroupId(applicationId);
     lagMonitor.setAssignmentSupplier(
@@ -126,27 +127,13 @@ public abstract class ConsumerTopology implements Initializable, Shutdownable, S
 
     PartitionFuture future = null;
     for (ConsumerRecord<byte[], byte[]> record : partitionRecords) {
-      if (filter(topicPartition, record)) {
-        Integer targetPartition = setPartition(topicPartition, record);
-        byte[] key = modifyKey(topicPartition, record);
-        byte[] value = modifyValue(topicPartition, record);
-        var producerRecord = new ProducerRecord<>(destinationTopic, targetPartition, key, value);
-        Future<RecordMetadata> recordFuture = producer.send(producerRecord);
-        future = new PartitionFuture(batch, recordFuture);
-      }
+      byte[] key = modifyKey(topicPartition, record);
+      byte[] value = modifyValue(topicPartition, record);
+      var producerRecord = new ProducerRecord<>(destinationTopic, key, value);
+      Future<RecordMetadata> recordFuture = producer.send(producerRecord);
+      future = new PartitionFuture(batch, recordFuture);
     }
     return future;
-  }
-
-  protected boolean filter(TopicPartition topicPartition,
-      ConsumerRecord<byte[], byte[]> record) {
-    return true;
-  }
-
-  @Nullable
-  protected Integer setPartition(TopicPartition topicPartition,
-      ConsumerRecord<byte[], byte[]> record) {
-    return null;
   }
 
   @Nullable

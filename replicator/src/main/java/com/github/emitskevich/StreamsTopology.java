@@ -30,6 +30,7 @@ public abstract class StreamsTopology<SK, SV, DK, DV> implements Initializable, 
   private static final Logger LOGGER = LoggerFactory.getLogger(StreamsTopology.class);
 
   protected final AppConfig appConfig;
+  protected String applicationId;
   protected final String sourceName;
   protected final String destinationName;
   private final StreamConfig streamConfig;
@@ -64,7 +65,7 @@ public abstract class StreamsTopology<SK, SV, DK, DV> implements Initializable, 
     this.sourceTopic = appConfig.getString("kafka." + sourceName + ".name");
     this.destinationTopic = appConfig.getString("kafka." + destinationName + ".name");
 
-    String applicationId = appConfig.getString("application.name");
+    this.applicationId = appConfig.getString("application.name");
     lagMonitor.setGroupId(applicationId);
     StreamsAssignmentProvider assignmentProvider = new StreamsAssignmentProvider();
     lagMonitor.setAssignmentSupplier(
