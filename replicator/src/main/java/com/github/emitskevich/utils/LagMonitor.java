@@ -1,4 +1,4 @@
-package com.github.emitskevich;
+package com.github.emitskevich.utils;
 
 import static java.util.stream.Collectors.toMap;
 import static org.apache.kafka.clients.admin.OffsetSpec.latest;

@@ -1,0 +1,26 @@
+application:
+  name: "real-time-billing"
+  auto-reset: "earliest"
+
+kafka:
+  source:
+    bootstrap-servers: "localhost-source:9092"
+    topic:
+      name: "source-topic"
+  destination:
+    bootstrap-servers: "localhost-destination:9092"
+    topic:
+      name: "destination-topic"
+
+streams:
+  replication-factor: "3"
+  num-standby-replicas: "0"
+  num-stream-threads: "30"
+  commit-interval: "PT1S"
+  processing-guarantee: "exactly_once_v2"
+  buffer-config:
+    max-bytes: "268435456"  # 256 MB
+
+utils:
+  monitor-interval:
+    lag: "PT10S"

@@ -1,4 +1,4 @@
-package com.github.emitskevich;
+package com.github.emitskevich.utils;
 
 import org.apache.kafka.streams.errors.StreamsUncaughtExceptionHandler;
 

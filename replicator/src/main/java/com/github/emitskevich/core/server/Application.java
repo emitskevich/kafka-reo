@@ -3,16 +3,16 @@ package com.github.emitskevich.core.server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class Application {
+public class Application {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
   protected final ServerContext context;
 
-  Application(ServerContext context) {
+  public Application(ServerContext context) {
     this.context = context;
   }
 
-  void initialize() {
+  public void initialize() {
     try {
       context.initialize();
     } catch (Exception e) {
@@ -21,7 +21,7 @@ class Application {
     }
   }
 
-  void start() {
+  public void start() {
     for (Startable startable : context.getStartables()) {
       try {
         LOGGER.info("Starting " + startable.getClass().getSimpleName() + "...");
@@ -34,7 +34,7 @@ class Application {
     }
   }
 
-  void registerShutdownHook() {
+  public void registerShutdownHook() {
     Runnable shutdownAction = () -> {
       LOGGER.info("Registered shutdown hook, waiting...");
       shutdown();

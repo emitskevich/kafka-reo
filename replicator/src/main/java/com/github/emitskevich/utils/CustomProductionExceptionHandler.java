@@ -1,4 +1,4 @@
-package com.github.emitskevich;
+package com.github.emitskevich.utils;
 
 import java.util.Map;
 import org.apache.kafka.clients.producer.ProducerRecord;
