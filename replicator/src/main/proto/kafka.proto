@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package com.adx.proto;
+
+message DedupValueProto {
+  bool duplicate = 10;
+  int64 prevMaxPosition = 20;
+  bytes value = 30;
+}
+
+message ReplicatedKey {
+  string sourceHost = 10;
+  string sourceTopic = 20;
+  int32 sourcePartition = 30;
+}
+
+message ReplicatedValue {
+  int64 sourceOffset = 10;
+  bytes key = 20;
+  bytes value = 30;
+}
+
+message DedupMessageProto {
+  bytes key = 10;
+  bytes value = 20;
+}
+
+message DedupAggregateProto {
+  bool duplicate = 10;
+  int64 prevMaxPosition = 20;
+  bytes message = 30;
+}
