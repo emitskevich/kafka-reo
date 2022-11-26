@@ -6,16 +6,16 @@ import com.github.emitskevich.core.server.ServerContext;
 import com.github.emitskevich.core.server.Shutdownable;
 import com.github.emitskevich.core.server.Startable;
 import com.github.emitskevich.core.utils.SimpleScheduler;
-import com.github.emitskevich.kafka.KafkaClients;
-import com.github.emitskevich.kafka.KafkaClients.ConsumerPair;
-import com.github.emitskevich.utils.LagMonitor;
+import com.github.emitskevich.kafka.config.ConsumerConfig;
+import com.github.emitskevich.kafka.config.DefaultConsumerConfig;
+import com.github.emitskevich.kafka.config.DefaultProducerConfig;
+import com.github.emitskevich.kafka.config.ProducerConfig;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import org.apache.kafka.clients.consumer.ConsumerRebalanceListener;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -32,58 +32,38 @@ public abstract class ConsumerTopology implements Initializable, Shutdownable, S
   private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerTopology.class);
   private static final Duration POLL_TIMEOUT = Duration.ofSeconds(5);
 
-  protected final String sourceName;
-  private final String destinationName;
-  protected final LagMonitor lagMonitor;
-
   private final SimpleScheduler scheduler = SimpleScheduler.createSingleThreaded();
   private final Duration delay;
   protected final AppConfig appConfig;
 
   private KafkaConsumer<byte[], byte[]> consumer;
-  private ConsumerRebalanceListener consumerRebalanceListener;
   private KafkaProducer<byte[], byte[]> producer;
   protected String sourceTopic;
   private String destinationTopic;
 
-  protected ConsumerTopology(AppConfig appConfig, String sourceName, String destinationName,
-      Duration delay) {
-    this.sourceName = sourceName;
-    this.destinationName = destinationName;
-    this.lagMonitor = new LagMonitor(sourceName, destinationName, appConfig);
+  protected ConsumerTopology(AppConfig appConfig, Duration delay) {
     this.delay = delay;
     this.appConfig = appConfig;
   }
 
   @Override
   public void initialize(ServerContext context) throws ExecutionException, InterruptedException {
-    KafkaClients kafkaClients = context.getInstance(KafkaClients.class);
     String applicationId = appConfig.getString("application.name");
 
-    ConsumerPair<byte[], byte[]> consumerPair = kafkaClients
-        .buildConsumerPair(sourceName, applicationId);
-    this.consumer = consumerPair.consumer();
-    this.consumerRebalanceListener = consumerPair.listener();
+    ConsumerConfig consumerConfig = new DefaultConsumerConfig(appConfig);
+    this.consumer = new KafkaConsumer<>(consumerConfig.packConfig("source", applicationId));
 
-    this.producer = kafkaClients.getProducer(destinationName);
+    ProducerConfig producerConfig = new DefaultProducerConfig(appConfig);
+    this.producer = new KafkaProducer<>(producerConfig.packConfig("destination"));
+
     this.sourceTopic = appConfig.getString("kafka.source.name");
     this.destinationTopic = appConfig.getString("kafka.destination.name");
-
-    lagMonitor.setGroupId(applicationId);
-    lagMonitor.setAssignmentSupplier(
-        () -> kafkaClients.getAssignment(sourceName, applicationId)
-    );
-    lagMonitor.initialize(context);
   }
 
   @Override
   public void start() {
-    lagMonitor.reportLag();
-
-    consumer.subscribe(List.of(sourceTopic), consumerRebalanceListener);
-
+    consumer.subscribe(List.of(sourceTopic));
     scheduler.scheduleWithFixedDelay(this::iteration, delay);
-    lagMonitor.start();
   }
 
   private void iteration() {
@@ -150,8 +130,8 @@ public abstract class ConsumerTopology implements Initializable, Shutdownable, S
   public void shutdown() {
     scheduler.stop();
     consumer.unsubscribe();
-    lagMonitor.reportLag();
-    lagMonitor.shutdown();
+    consumer.close();
+    producer.close();
   }
 
   private record PartitionBatch(TopicPartition topicPartition, int size, long first, long last) {

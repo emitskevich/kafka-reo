@@ -9,10 +9,9 @@ import static org.apache.kafka.clients.consumer.ConsumerConfig.ISOLATION_LEVEL_C
 import static org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG;
 
+import com.github.emitskevich.core.config.AppConfig;
 import java.util.Properties;
 import org.apache.kafka.common.serialization.ByteArrayDeserializer;
-import com.github.emitskevich.core.config.AppConfig;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +27,7 @@ public class DefaultConsumerConfig implements ConsumerConfig {
   }
 
   @Override
-  public Properties packConfig(String clusterName, @Nullable String groupId) {
+  public Properties packConfig(String clusterName, String groupId) {
     String bootstrapServers = appConfig.getString("kafka." + clusterName + ".bootstrap-servers");
 
     Properties props = new Properties();
@@ -41,10 +40,8 @@ public class DefaultConsumerConfig implements ConsumerConfig {
     props.put(AUTO_OFFSET_RESET_CONFIG, autoReset);
     props.put(ISOLATION_LEVEL_CONFIG, "read_committed");
 
-    if (groupId != null) {
-      LOGGER.info("Using kafka consumer group.id={}...", groupId);
-      props.put(GROUP_ID_CONFIG, groupId);
-    }
+    LOGGER.info("Using kafka consumer group.id={}...", groupId);
+    props.put(GROUP_ID_CONFIG, groupId);
     return props;
   }
 }

@@ -1,14 +1,12 @@
 package com.github.emitskevich;
 
+import com.github.emitskevich.core.config.AppConfig;
 import com.github.emitskevich.core.config.EnvConfigProvider;
 import com.github.emitskevich.core.config.FileConfigProvider;
 import com.github.emitskevich.core.server.Application;
-import com.github.emitskevich.core.server.ServerOptions;
-import com.github.emitskevich.kafka.KafkaClients;
-import com.github.emitskevich.core.config.AppConfig;
 import com.github.emitskevich.core.server.ServerContext;
+import com.github.emitskevich.core.server.ServerOptions;
 import com.google.devtools.common.options.OptionsParser;
-import java.util.function.BiConsumer;
 
 public class Launcher {
 
@@ -21,7 +19,7 @@ public class Launcher {
 
     FileConfigProvider fileConfigProvider = new FileConfigProvider(options.config);
     AppConfig appConfig = new AppConfig(new EnvConfigProvider(), fileConfigProvider);
-    ((BiConsumer<ServerContext, AppConfig>) Launcher::registerInstances).accept(context, appConfig);
+    registerInstances(context, appConfig);
     Application application = new Application(context);
 
     application.registerShutdownHook();
@@ -30,6 +28,6 @@ public class Launcher {
   }
 
   private static void registerInstances(ServerContext context, AppConfig appConfig) {
-    context.register(KafkaClients.class, new KafkaClients(appConfig));
+//    context.register(KafkaClients.class, new KafkaClients(appConfig));
   }
 }
