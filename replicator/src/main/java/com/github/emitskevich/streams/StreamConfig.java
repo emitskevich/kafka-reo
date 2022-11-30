@@ -78,7 +78,7 @@ public class StreamConfig {
     props.put(LINGER_MS_CONFIG, lingerMs);
     String compressionType = appConfig.getString("kafka.config.producer.compression-type");
     props.put(COMPRESSION_TYPE_CONFIG, compressionType);
-    int acks = appConfig.getInt("kafka.config.producer.acks");
+    String acks = appConfig.getString("kafka.config.producer.acks");
     props.put(ACKS_CONFIG, acks);
     int deliveryTimeoutMs = appConfig.getInt("kafka.config.producer.delivery-timeout-ms");
     props.put(DELIVERY_TIMEOUT_MS_CONFIG, deliveryTimeoutMs);

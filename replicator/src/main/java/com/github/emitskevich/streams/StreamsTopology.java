@@ -86,6 +86,8 @@ public abstract class StreamsTopology<SK, SV, DK, DV> implements Initializable, 
 
   @Override
   public void shutdown() {
-    kafkaStreams.close();
+    if (kafkaStreams != null) {
+      kafkaStreams.close();
+    }
   }
 }

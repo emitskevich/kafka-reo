@@ -27,8 +27,8 @@ public class ExactlyOnceReplicator implements Initializable, Startable, Shutdown
 
   @Override
   public void start() {
-    deduplicator.start();
     replicator.start();
+    deduplicator.start();
   }
 
   @Override
