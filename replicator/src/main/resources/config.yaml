@@ -1,24 +1,29 @@
 application:
-  name: "real-time-billing"
-  auto-reset: "earliest"
+  name: "exactly-once-replicator"
 
 kafka:
-  source:
-    bootstrap-servers: "localhost-source:9092"
-    topic: "source-topic"
-  destination:
-    bootstrap-servers: "localhost-destination:9092"
-    topic: "destination-topic"
+  clusters:
+    source:
+      bootstrap-servers: "localhost-source:9092"
+      topic: "source-topic"
+    destination:
+      bootstrap-servers: "localhost-destination:9092"
+      topic: "destination-topic"
+  config:
+    consumer:
+      fetch-min-bytes: "1048576"  # 1MB
+      auto-reset: "earliest"
+    producer:
+      linger-ms: "10"
+      compression-type: "gzip"
+      delivery-timeout-ms: "604800000"  # P7D
+      acks: "all"
 
 streams:
   replication-factor: "3"
   num-standby-replicas: "0"
-  num-stream-threads: "30"
-  commit-interval: "PT1S"
+  num-stream-threads: "3"
+  commit-interval-ms: "1000"
   processing-guarantee: "exactly_once_v2"
   buffer-config:
     max-bytes: "268435456"  # 256 MB
-
-utils:
-  monitor-interval:
-    lag: "PT10S"

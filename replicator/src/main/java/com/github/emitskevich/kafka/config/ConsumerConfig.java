@@ -15,14 +15,12 @@ import org.apache.kafka.common.serialization.ByteArrayDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultConsumerConfig {
+public class ConsumerConfig {
 
-  public static final int FETCH_MIN_BYTES = 1024 * 1024;
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(DefaultConsumerConfig.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerConfig.class);
   private final AppConfig appConfig;
 
-  public DefaultConsumerConfig(AppConfig appConfig) {
+  public ConsumerConfig(AppConfig appConfig) {
     this.appConfig = appConfig;
   }
 
@@ -33,10 +31,9 @@ public class DefaultConsumerConfig {
     props.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
     props.put(KEY_DESERIALIZER_CLASS_CONFIG, ByteArrayDeserializer.class);
     props.put(VALUE_DESERIALIZER_CLASS_CONFIG, ByteArrayDeserializer.class);
-    props.put(FETCH_MIN_BYTES_CONFIG, FETCH_MIN_BYTES);
+    props.put(FETCH_MIN_BYTES_CONFIG, appConfig.getInt("kafka.config.consumer.fetch-min-bytes"));
     props.put(ENABLE_AUTO_COMMIT_CONFIG, false);
-    String autoReset = appConfig.getString("application.auto-reset");
-    props.put(AUTO_OFFSET_RESET_CONFIG, autoReset);
+    props.put(AUTO_OFFSET_RESET_CONFIG, appConfig.getString("kafka.config.consumer.auto-reset"));
     props.put(ISOLATION_LEVEL_CONFIG, "read_committed");
 
     LOGGER.info("Using kafka consumer group.id={}...", groupId);

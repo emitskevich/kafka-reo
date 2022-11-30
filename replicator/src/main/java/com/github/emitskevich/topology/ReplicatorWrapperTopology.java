@@ -24,7 +24,7 @@ public class ReplicatorWrapperTopology extends ConsumerTopology {
   @Override
   public void initialize(ServerContext context) throws ExecutionException, InterruptedException {
     super.initialize(context);
-    this.sourceHosts = appConfig.getString("kafka.source.bootstrap-servers");
+    this.sourceHosts = appConfig.getString("kafka.clusters.source.bootstrap-servers");
   }
 
   @Override

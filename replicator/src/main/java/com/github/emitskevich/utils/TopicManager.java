@@ -8,14 +8,14 @@ public class TopicManager {
   }
 
   public static String getSourceTopic(AppConfig appConfig) {
-    return appConfig.getString("kafka.source.topic");
+    return appConfig.getString("kafka.clusters.source.topic");
   }
 
   public static String getProxyTopic(AppConfig appConfig) {
-    return appConfig.getString("kafka.destination.topic") + "-proxy";
+    return appConfig.getString("kafka.clusters.destination.topic") + "-proxy";
   }
 
   public static String getDestinationTopic(AppConfig appConfig) {
-    return appConfig.getString("kafka.destination.topic");
+    return appConfig.getString("kafka.clusters.destination.topic");
   }
 }

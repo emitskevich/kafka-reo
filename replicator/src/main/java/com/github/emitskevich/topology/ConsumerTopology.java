@@ -6,7 +6,7 @@ import com.github.emitskevich.core.server.ServerContext;
 import com.github.emitskevich.core.server.Shutdownable;
 import com.github.emitskevich.core.server.Startable;
 import com.github.emitskevich.core.utils.SimpleScheduler;
-import com.github.emitskevich.kafka.config.DefaultConsumerConfig;
+import com.github.emitskevich.kafka.config.ConsumerConfig;
 import com.github.emitskevich.kafka.config.ProducerConfig;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public abstract class ConsumerTopology implements Initializable, Shutdownable, S
   public void initialize(ServerContext context) throws ExecutionException, InterruptedException {
     String applicationId = appConfig.getString("application.name");
 
-    DefaultConsumerConfig consumerConfig = new DefaultConsumerConfig(appConfig);
+    ConsumerConfig consumerConfig = new ConsumerConfig(appConfig);
     this.consumer = new KafkaConsumer<>(consumerConfig.packConfig("source", applicationId));
 
     ProducerConfig producerConfig = new ProducerConfig(appConfig);

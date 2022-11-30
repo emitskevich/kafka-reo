@@ -7,7 +7,7 @@ import com.github.emitskevich.core.server.Initializable;
 import com.github.emitskevich.core.server.ServerContext;
 import com.github.emitskevich.core.server.Shutdownable;
 import com.github.emitskevich.core.server.Startable;
-import com.github.emitskevich.kafka.config.DefaultStreamConfig;
+import com.github.emitskevich.kafka.config.StreamConfig;
 import com.github.emitskevich.utils.StreamsStateListener;
 import com.github.emitskevich.utils.UncaughtExceptionHandler;
 import java.util.Properties;
@@ -28,7 +28,7 @@ public abstract class StreamsTopology<SK, SV, DK, DV> implements Initializable, 
 
   private final AppConfig appConfig;
   protected String applicationId;
-  private final DefaultStreamConfig streamConfig;
+  private final StreamConfig streamConfig;
   protected final Serde<SK> sourceKeySerde;
   protected final Serde<SV> sourceValueSerde;
   protected final Serde<DK> destinationKeySerde;
@@ -43,7 +43,7 @@ public abstract class StreamsTopology<SK, SV, DK, DV> implements Initializable, 
       Serde<SK> sourceKeySerde, Serde<SV> sourceValueSerde, Serde<DK> destinationKeySerde,
       Serde<DV> destinationValueSerde) {
     this.appConfig = appConfig;
-    this.streamConfig = new DefaultStreamConfig(appConfig);
+    this.streamConfig = new StreamConfig(appConfig);
     this.clusterName = clusterName;
     this.sourceTopic = sourceTopic;
     this.destinationTopic = destinationTopic;
