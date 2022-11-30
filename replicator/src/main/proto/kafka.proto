@@ -19,14 +19,3 @@ message ReplicatedValue {
   bytes key = 20;
   bytes value = 30;
 }
-
-message DedupMessageProto {
-  bytes key = 10;
-  bytes value = 20;
-}
-
-message DedupAggregateProto {
-  bool duplicate = 10;
-  int64 prevMaxPosition = 20;
-  bytes message = 30;
-}
