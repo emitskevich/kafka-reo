@@ -5,8 +5,6 @@ import com.github.emitskevich.core.server.Initializable;
 import com.github.emitskevich.core.server.ServerContext;
 import com.github.emitskevich.core.server.Shutdownable;
 import com.github.emitskevich.core.server.Startable;
-import com.github.emitskevich.topology.DeduplicatorUnwrapperTopology;
-import com.github.emitskevich.topology.ReplicatorWrapperTopology;
 
 public class ExactlyOnceReplicator implements Initializable, Startable, Shutdownable {
 

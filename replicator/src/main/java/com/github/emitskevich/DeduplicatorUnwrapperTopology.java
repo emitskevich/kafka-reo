@@ -1,15 +1,15 @@
-package com.github.emitskevich.topology;
+package com.github.emitskevich;
 
 import static java.lang.Math.max;
 
 import com.adx.proto.Kafka.ReplicatedKey;
 import com.adx.proto.Kafka.ReplicatedValue;
 import com.github.emitskevich.core.config.AppConfig;
-import com.github.emitskevich.utils.DedupValue;
-import com.github.emitskevich.utils.DedupValue.DedupValueSerde;
+import com.github.emitskevich.streams.DedupValue;
+import com.github.emitskevich.streams.DedupValue.DedupValueSerde;
 import com.github.emitskevich.serde.ReplicatedKeySerde;
 import com.github.emitskevich.serde.ReplicatedValueSerde;
-import com.github.emitskevich.utils.TopicManager;
+import com.github.emitskevich.streams.StreamsTopology;
 import java.util.function.ToLongFunction;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;

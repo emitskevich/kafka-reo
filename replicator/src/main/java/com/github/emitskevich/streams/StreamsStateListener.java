@@ -1,4 +1,4 @@
-package com.github.emitskevich.utils;
+package com.github.emitskevich.streams;
 
 import static org.apache.kafka.streams.KafkaStreams.State.RUNNING;
 

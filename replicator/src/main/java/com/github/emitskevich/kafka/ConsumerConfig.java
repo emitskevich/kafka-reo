@@ -1,4 +1,4 @@
-package com.github.emitskevich.kafka.config;
+package com.github.emitskevich.kafka;
 
 import static org.apache.kafka.clients.consumer.ConsumerConfig.AUTO_OFFSET_RESET_CONFIG;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG;

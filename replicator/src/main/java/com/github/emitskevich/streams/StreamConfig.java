@@ -1,4 +1,4 @@
-package com.github.emitskevich.kafka.config;
+package com.github.emitskevich.streams;
 
 import static org.apache.kafka.clients.consumer.ConsumerConfig.AUTO_OFFSET_RESET_CONFIG;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.FETCH_MIN_BYTES_CONFIG;
@@ -21,8 +21,6 @@ import static org.apache.kafka.streams.StreamsConfig.PROCESSING_GUARANTEE_CONFIG
 import static org.apache.kafka.streams.StreamsConfig.REPLICATION_FACTOR_CONFIG;
 
 import com.github.emitskevich.core.config.AppConfig;
-import com.github.emitskevich.utils.CustomDeserializationExceptionHandler;
-import com.github.emitskevich.utils.CustomProductionExceptionHandler;
 import java.util.Properties;
 import org.apache.kafka.streams.processor.UsePartitionTimeOnInvalidTimestamp;
 import org.slf4j.Logger;

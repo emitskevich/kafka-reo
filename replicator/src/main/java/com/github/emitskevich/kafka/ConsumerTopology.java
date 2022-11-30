@@ -1,4 +1,4 @@
-package com.github.emitskevich.topology;
+package com.github.emitskevich.kafka;
 
 import com.github.emitskevich.core.config.AppConfig;
 import com.github.emitskevich.core.server.Initializable;
@@ -6,8 +6,6 @@ import com.github.emitskevich.core.server.ServerContext;
 import com.github.emitskevich.core.server.Shutdownable;
 import com.github.emitskevich.core.server.Startable;
 import com.github.emitskevich.core.utils.SimpleScheduler;
-import com.github.emitskevich.kafka.config.ConsumerConfig;
-import com.github.emitskevich.kafka.config.ProducerConfig;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;

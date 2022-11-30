@@ -1,4 +1,4 @@
-package com.github.emitskevich.utils;
+package com.github.emitskevich.streams;
 
 import com.adx.proto.Kafka.DedupValueProto;
 import com.google.protobuf.ByteString;

@@ -1,4 +1,4 @@
-package com.github.emitskevich.topology;
+package com.github.emitskevich.streams;
 
 import static org.apache.kafka.streams.errors.StreamsUncaughtExceptionHandler.StreamThreadExceptionResponse.REPLACE_THREAD;
 
@@ -7,9 +7,6 @@ import com.github.emitskevich.core.server.Initializable;
 import com.github.emitskevich.core.server.ServerContext;
 import com.github.emitskevich.core.server.Shutdownable;
 import com.github.emitskevich.core.server.Startable;
-import com.github.emitskevich.kafka.config.StreamConfig;
-import com.github.emitskevich.utils.StreamsStateListener;
-import com.github.emitskevich.utils.UncaughtExceptionHandler;
 import java.util.Properties;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.streams.KafkaStreams;

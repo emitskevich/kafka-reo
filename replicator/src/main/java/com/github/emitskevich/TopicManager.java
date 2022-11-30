@@ -1,4 +1,4 @@
-package com.github.emitskevich.utils;
+package com.github.emitskevich;
 
 import com.github.emitskevich.core.config.AppConfig;
 

@@ -1,10 +1,11 @@
-package com.github.emitskevich.topology;
+package com.github.emitskevich;
 
 import com.adx.proto.Kafka.ReplicatedKey;
 import com.adx.proto.Kafka.ReplicatedValue;
 import com.github.emitskevich.core.config.AppConfig;
 import com.github.emitskevich.core.server.ServerContext;
-import com.github.emitskevich.utils.TopicManager;
+import com.github.emitskevich.TopicManager;
+import com.github.emitskevich.kafka.ConsumerTopology;
 import com.google.protobuf.ByteString;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;

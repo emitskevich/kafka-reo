@@ -1,4 +1,4 @@
-package com.github.emitskevich.kafka.config;
+package com.github.emitskevich.kafka;
 
 import static org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG;
 import static org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG;
