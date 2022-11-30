@@ -1,4 +1,4 @@
-package com.github.emitskevich;
+package com.github.emitskevich.topology;
 
 import static org.apache.kafka.streams.errors.StreamsUncaughtExceptionHandler.StreamThreadExceptionResponse.REPLACE_THREAD;
 
@@ -8,7 +8,6 @@ import com.github.emitskevich.core.server.ServerContext;
 import com.github.emitskevich.core.server.Shutdownable;
 import com.github.emitskevich.core.server.Startable;
 import com.github.emitskevich.kafka.config.DefaultStreamConfig;
-import com.github.emitskevich.kafka.config.StreamConfig;
 import com.github.emitskevich.utils.StreamsStateListener;
 import com.github.emitskevich.utils.UncaughtExceptionHandler;
 import java.util.Properties;
@@ -27,27 +26,27 @@ public abstract class StreamsTopology<SK, SV, DK, DV> implements Initializable, 
 
   private static final Logger LOGGER = LoggerFactory.getLogger(StreamsTopology.class);
 
-  protected final AppConfig appConfig;
+  private final AppConfig appConfig;
   protected String applicationId;
-  protected final String sourceName;
-  protected final String destinationName;
-  private final StreamConfig streamConfig;
+  private final DefaultStreamConfig streamConfig;
   protected final Serde<SK> sourceKeySerde;
   protected final Serde<SV> sourceValueSerde;
   protected final Serde<DK> destinationKeySerde;
   protected final Serde<DV> destinationValueSerde;
-  protected String sourceTopic;
-  protected String destinationTopic;
+  private final String clusterName;
+  private final String sourceTopic;
+  private final String destinationTopic;
 
-  protected KafkaStreams kafkaStreams;
+  private KafkaStreams kafkaStreams;
 
-  protected StreamsTopology(AppConfig appConfig, String sourceName, String destinationName,
-      Serde<SK> sourceKeySerde, Serde<SV> sourceValueSerde,
-      Serde<DK> destinationKeySerde, Serde<DV> destinationValueSerde) {
-    this.sourceName = sourceName;
-    this.destinationName = destinationName;
+  protected StreamsTopology(AppConfig appConfig, String clusterName, String sourceTopic, String destinationTopic,
+      Serde<SK> sourceKeySerde, Serde<SV> sourceValueSerde, Serde<DK> destinationKeySerde,
+      Serde<DV> destinationValueSerde) {
     this.appConfig = appConfig;
-    this.streamConfig = new DefaultStreamConfig(sourceName, appConfig);
+    this.streamConfig = new DefaultStreamConfig(appConfig);
+    this.clusterName = clusterName;
+    this.sourceTopic = sourceTopic;
+    this.destinationTopic = destinationTopic;
     this.sourceKeySerde = sourceKeySerde;
     this.sourceValueSerde = sourceValueSerde;
     this.destinationKeySerde = destinationKeySerde;
@@ -55,15 +54,13 @@ public abstract class StreamsTopology<SK, SV, DK, DV> implements Initializable, 
   }
 
   @Override
-  public void initialize(ServerContext context) throws Exception {
+  public void initialize(ServerContext context) {
     this.applicationId = appConfig.getString("application.name");
-    this.sourceTopic = appConfig.getString("kafka." + sourceName + ".name");
-    this.destinationTopic = appConfig.getString("kafka." + destinationName + ".name");
   }
 
   @Override
   public void start() {
-    Properties streamProperties = streamConfig.packConfig();
+    Properties streamProperties = streamConfig.packConfig(clusterName);
     this.kafkaStreams = buildStreams(streamProperties);
     kafkaStreams.start();
   }
@@ -82,7 +79,7 @@ public abstract class StreamsTopology<SK, SV, DK, DV> implements Initializable, 
     KafkaStreams kafkaStreams = new KafkaStreams(topology, streamProperties);
     kafkaStreams.setUncaughtExceptionHandler(new UncaughtExceptionHandler(REPLACE_THREAD));
     StreamsStateListener listener =
-        new StreamsStateListener(sourceName, destinationName, kafkaStreams::state);
+        new StreamsStateListener(kafkaStreams::state);
     kafkaStreams.setStateListener(listener);
 
     return kafkaStreams;

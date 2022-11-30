@@ -1,4 +1,4 @@
-package com.github.emitskevich;
+package com.github.emitskevich.topology;
 
 import com.github.emitskevich.core.config.AppConfig;
 import com.github.emitskevich.core.server.Initializable;
@@ -6,9 +6,7 @@ import com.github.emitskevich.core.server.ServerContext;
 import com.github.emitskevich.core.server.Shutdownable;
 import com.github.emitskevich.core.server.Startable;
 import com.github.emitskevich.core.utils.SimpleScheduler;
-import com.github.emitskevich.kafka.config.ConsumerConfig;
 import com.github.emitskevich.kafka.config.DefaultConsumerConfig;
-import com.github.emitskevich.kafka.config.DefaultProducerConfig;
 import com.github.emitskevich.kafka.config.ProducerConfig;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -38,26 +36,26 @@ public abstract class ConsumerTopology implements Initializable, Shutdownable, S
 
   private KafkaConsumer<byte[], byte[]> consumer;
   private KafkaProducer<byte[], byte[]> producer;
-  protected String sourceTopic;
-  private String destinationTopic;
+  private final String sourceTopic;
+  private final String destinationTopic;
 
-  protected ConsumerTopology(AppConfig appConfig, Duration delay) {
-    this.delay = delay;
+  protected ConsumerTopology(AppConfig appConfig, String sourceTopic, String destinationTopic,
+      Duration delay) {
     this.appConfig = appConfig;
+    this.sourceTopic = sourceTopic;
+    this.destinationTopic = destinationTopic;
+    this.delay = delay;
   }
 
   @Override
   public void initialize(ServerContext context) throws ExecutionException, InterruptedException {
     String applicationId = appConfig.getString("application.name");
 
-    ConsumerConfig consumerConfig = new DefaultConsumerConfig(appConfig);
+    DefaultConsumerConfig consumerConfig = new DefaultConsumerConfig(appConfig);
     this.consumer = new KafkaConsumer<>(consumerConfig.packConfig("source", applicationId));
 
-    ProducerConfig producerConfig = new DefaultProducerConfig(appConfig);
+    ProducerConfig producerConfig = new ProducerConfig(appConfig);
     this.producer = new KafkaProducer<>(producerConfig.packConfig("destination"));
-
-    this.sourceTopic = appConfig.getString("kafka.source.name");
-    this.destinationTopic = appConfig.getString("kafka.destination.name");
   }
 
   @Override

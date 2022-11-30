@@ -28,6 +28,6 @@ public class Launcher {
   }
 
   private static void registerInstances(ServerContext context, AppConfig appConfig) {
-//    context.register(KafkaClients.class, new KafkaClients(appConfig));
+    context.register(ExactlyOnceReplicator.class, new ExactlyOnceReplicator(appConfig));
   }
 }

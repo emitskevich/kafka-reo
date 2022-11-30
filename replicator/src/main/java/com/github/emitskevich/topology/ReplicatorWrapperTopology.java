@@ -1,10 +1,10 @@
-package com.github.emitskevich.deduplication;
+package com.github.emitskevich.topology;
 
 import com.adx.proto.Kafka.ReplicatedKey;
 import com.adx.proto.Kafka.ReplicatedValue;
-import com.github.emitskevich.ConsumerTopology;
 import com.github.emitskevich.core.config.AppConfig;
 import com.github.emitskevich.core.server.ServerContext;
+import com.github.emitskevich.utils.TopicManager;
 import com.google.protobuf.ByteString;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
@@ -16,8 +16,9 @@ public class ReplicatorWrapperTopology extends ConsumerTopology {
 
   private String sourceHosts;
 
-  public ReplicatorWrapperTopology(AppConfig appConfig, String sourceName, String destinationName) {
-    super(appConfig, sourceName, destinationName, Duration.ofMillis(1));
+  public ReplicatorWrapperTopology(AppConfig appConfig) {
+    super(appConfig, TopicManager.getSourceTopic(appConfig), TopicManager.getProxyTopic(appConfig),
+        Duration.ofMillis(1));
   }
 
   @Override

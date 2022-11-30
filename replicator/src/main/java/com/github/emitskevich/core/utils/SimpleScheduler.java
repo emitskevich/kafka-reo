@@ -19,16 +19,8 @@ public class SimpleScheduler {
     return new SimpleScheduler(scheduler);
   }
 
-  public void scheduleAtFixedRate(Runnable runnable, Duration period) {
-    executor.scheduleAtFixedRate(runnable, period.toNanos(), period.toNanos(), NANOSECONDS);
-  }
-
   public void scheduleWithFixedDelay(Runnable runnable, Duration delay) {
     executor.scheduleWithFixedDelay(runnable, delay.toNanos(), delay.toNanos(), NANOSECONDS);
-  }
-
-  public boolean isRunning() {
-    return !executor.isShutdown();
   }
 
   public void stop() {

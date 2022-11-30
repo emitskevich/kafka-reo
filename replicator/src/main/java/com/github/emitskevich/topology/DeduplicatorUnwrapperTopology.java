@@ -1,14 +1,15 @@
-package com.github.emitskevich.deduplication;
+package com.github.emitskevich.topology;
 
 import static java.lang.Math.max;
 
 import com.adx.proto.Kafka.ReplicatedKey;
 import com.adx.proto.Kafka.ReplicatedValue;
-import com.github.emitskevich.StreamsTopology;
 import com.github.emitskevich.core.config.AppConfig;
-import com.github.emitskevich.deduplication.DedupValue.DedupValueSerde;
+import com.github.emitskevich.utils.DedupValue;
+import com.github.emitskevich.utils.DedupValue.DedupValueSerde;
 import com.github.emitskevich.serde.ReplicatedKeySerde;
 import com.github.emitskevich.serde.ReplicatedValueSerde;
+import com.github.emitskevich.utils.TopicManager;
 import java.util.function.ToLongFunction;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
@@ -25,13 +26,10 @@ public class DeduplicatorUnwrapperTopology extends
   private static final Logger LOGGER = LoggerFactory.getLogger(DeduplicatorUnwrapperTopology.class);
   private final DedupValueSerde<ReplicatedValue> dedupValueSerde;
 
-  public DeduplicatorUnwrapperTopology(AppConfig appConfig, String sourceName,
-      String destinationName) {
-    super(
-        appConfig, sourceName, destinationName,
-        new ReplicatedKeySerde(), new ReplicatedValueSerde(),
-        Serdes.ByteArray(), Serdes.ByteArray()
-    );
+  public DeduplicatorUnwrapperTopology(AppConfig appConfig) {
+    super(appConfig, "destination", TopicManager.getProxyTopic(appConfig),
+        TopicManager.getDestinationTopic(appConfig), new ReplicatedKeySerde(),
+        new ReplicatedValueSerde(), Serdes.ByteArray(), Serdes.ByteArray());
     this.dedupValueSerde = new DedupValueSerde<>(sourceValueSerde);
   }
 

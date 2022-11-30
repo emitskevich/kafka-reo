@@ -5,52 +5,37 @@ import com.github.emitskevich.core.server.Initializable;
 import com.github.emitskevich.core.server.ServerContext;
 import com.github.emitskevich.core.server.Shutdownable;
 import com.github.emitskevich.core.server.Startable;
-import com.github.emitskevich.deduplication.DeduplicatorUnwrapperTopology;
-import com.github.emitskevich.deduplication.ReplicatorWrapperTopology;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.github.emitskevich.topology.DeduplicatorUnwrapperTopology;
+import com.github.emitskevich.topology.ReplicatorWrapperTopology;
 
 public class ExactlyOnceReplicator implements Initializable, Startable, Shutdownable {
 
-  private final List<String> sourceNames;
   private final AppConfig appConfig;
-  private final String intermediateName;
-  private final String destinationName;
 
-  private List<ReplicatorWrapperTopology> internalReplicators;
+  private ReplicatorWrapperTopology replicator;
   private DeduplicatorUnwrapperTopology deduplicator;
 
-  public ExactlyOnceReplicator(AppConfig appConfig, List<String> sourceNames,
-      String intermediateName, String destinationName) {
-    this.sourceNames = sourceNames;
+  public ExactlyOnceReplicator(AppConfig appConfig) {
     this.appConfig = appConfig;
-    this.intermediateName = intermediateName;
-    this.destinationName = destinationName;
   }
 
   @Override
   public void initialize(ServerContext context) throws Exception {
-    this.internalReplicators = sourceNames
-        .stream()
-        .map(sourceName -> new ReplicatorWrapperTopology(appConfig, sourceName, intermediateName))
-        .collect(Collectors.toList());
-    for (ReplicatorWrapperTopology internalReplicator : internalReplicators) {
-      internalReplicator.initialize(context);
-    }
-    this.deduplicator = new DeduplicatorUnwrapperTopology(appConfig, intermediateName, destinationName);
+    this.replicator = new ReplicatorWrapperTopology(appConfig);
+    replicator.initialize(context);
+    this.deduplicator = new DeduplicatorUnwrapperTopology(appConfig);
     deduplicator.initialize(context);
   }
 
   @Override
   public void start() {
-    internalReplicators.forEach(ConsumerTopology::start);
     deduplicator.start();
+    replicator.start();
   }
 
   @Override
   public void shutdown() {
-    internalReplicators.forEach(ConsumerTopology::shutdown);
+    replicator.shutdown();
     deduplicator.shutdown();
   }
-
 }

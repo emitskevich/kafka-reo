@@ -1,4 +1,4 @@
-package com.github.emitskevich.deduplication;
+package com.github.emitskevich.utils;
 
 import com.adx.proto.Kafka.DedupValueProto;
 import com.google.protobuf.ByteString;

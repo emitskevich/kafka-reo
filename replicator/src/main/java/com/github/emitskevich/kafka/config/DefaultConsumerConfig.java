@@ -15,7 +15,7 @@ import org.apache.kafka.common.serialization.ByteArrayDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultConsumerConfig implements ConsumerConfig {
+public class DefaultConsumerConfig {
 
   public static final int FETCH_MIN_BYTES = 1024 * 1024;
 
@@ -26,7 +26,6 @@ public class DefaultConsumerConfig implements ConsumerConfig {
     this.appConfig = appConfig;
   }
 
-  @Override
   public Properties packConfig(String clusterName, String groupId) {
     String bootstrapServers = appConfig.getString("kafka." + clusterName + ".bootstrap-servers");
 
