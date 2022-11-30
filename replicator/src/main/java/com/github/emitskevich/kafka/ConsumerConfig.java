@@ -25,7 +25,7 @@ public class ConsumerConfig {
   }
 
   public Properties packConfig(String clusterName, String groupId) {
-    String bootstrapServers = appConfig.getString("kafka." + clusterName + ".bootstrap-servers");
+    String bootstrapServers = appConfig.getString("kafka.clusters." + clusterName + ".bootstrap-servers");
 
     Properties props = new Properties();
     props.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);

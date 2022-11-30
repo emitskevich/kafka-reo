@@ -42,7 +42,7 @@ public class StreamConfig {
     LOGGER.info("Using kafka streams application.id={}...", applicationId);
     props.put(APPLICATION_ID_CONFIG, applicationId);
 
-    String hosts = appConfig.getString("kafka." + clusterName + ".bootstrap-servers");
+    String hosts = appConfig.getString("kafka.clusters." + clusterName + ".bootstrap-servers");
     props.put(BOOTSTRAP_SERVERS_CONFIG, hosts);
     int replicationFactor = appConfig.getInt("streams.replication-factor");
     props.put(REPLICATION_FACTOR_CONFIG, replicationFactor);
