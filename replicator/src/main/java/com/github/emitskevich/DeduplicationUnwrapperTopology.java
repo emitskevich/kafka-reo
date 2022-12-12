@@ -20,13 +20,13 @@ import org.apache.kafka.streams.state.KeyValueStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DeduplicatorUnwrapperTopology extends
+public class DeduplicationUnwrapperTopology extends
     StreamsTopology<ReplicatedKey, ReplicatedValue, byte[], byte[]> {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(DeduplicatorUnwrapperTopology.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DeduplicationUnwrapperTopology.class);
   private final DedupValueSerde<ReplicatedValue> dedupValueSerde;
 
-  public DeduplicatorUnwrapperTopology(AppConfig appConfig) {
+  public DeduplicationUnwrapperTopology(AppConfig appConfig) {
     super(appConfig, "destination", TopicManager.getProxyTopic(appConfig),
         TopicManager.getDestinationTopic(appConfig), new ReplicatedKeySerde(),
         new ReplicatedValueSerde(), Serdes.ByteArray(), Serdes.ByteArray());
@@ -64,9 +64,9 @@ public class DeduplicatorUnwrapperTopology extends
             long prevMaxPosition = agg.prevMaxPosition();
             long messagePosition = sequenceExtractor.applyAsLong(agg.value());
             LOGGER.warn(""
-                    + "{}: duplicated position #{} under key {}, "
+                    + "Duplicated position #{} under key {}, "
                     + "while #{} was already processed, skipped",
-                applicationId, messagePosition, k, prevMaxPosition
+                messagePosition, k, prevMaxPosition
             );
             return false;
           }

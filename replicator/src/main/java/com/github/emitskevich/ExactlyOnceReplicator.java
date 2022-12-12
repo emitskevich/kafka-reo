@@ -11,7 +11,7 @@ public class ExactlyOnceReplicator implements Initializable, Startable, Shutdown
   private final AppConfig appConfig;
 
   private ReplicatorWrapperTopology replicator;
-  private DeduplicatorUnwrapperTopology deduplicator;
+  private DeduplicationUnwrapperTopology deduplicator;
 
   public ExactlyOnceReplicator(AppConfig appConfig) {
     this.appConfig = appConfig;
@@ -21,7 +21,7 @@ public class ExactlyOnceReplicator implements Initializable, Startable, Shutdown
   public void initialize(ServerContext context) throws Exception {
     this.replicator = new ReplicatorWrapperTopology(appConfig);
     replicator.initialize(context);
-    this.deduplicator = new DeduplicatorUnwrapperTopology(appConfig);
+    this.deduplicator = new DeduplicationUnwrapperTopology(appConfig);
     deduplicator.initialize(context);
   }
 

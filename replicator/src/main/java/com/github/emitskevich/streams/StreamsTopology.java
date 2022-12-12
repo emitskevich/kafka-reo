@@ -23,8 +23,6 @@ public abstract class StreamsTopology<SK, SV, DK, DV> implements Initializable, 
 
   private static final Logger LOGGER = LoggerFactory.getLogger(StreamsTopology.class);
 
-  private final AppConfig appConfig;
-  protected String applicationId;
   private final StreamConfig streamConfig;
   protected final Serde<SK> sourceKeySerde;
   protected final Serde<SV> sourceValueSerde;
@@ -39,7 +37,6 @@ public abstract class StreamsTopology<SK, SV, DK, DV> implements Initializable, 
   protected StreamsTopology(AppConfig appConfig, String clusterName, String sourceTopic, String destinationTopic,
       Serde<SK> sourceKeySerde, Serde<SV> sourceValueSerde, Serde<DK> destinationKeySerde,
       Serde<DV> destinationValueSerde) {
-    this.appConfig = appConfig;
     this.streamConfig = new StreamConfig(appConfig);
     this.clusterName = clusterName;
     this.sourceTopic = sourceTopic;
@@ -52,7 +49,7 @@ public abstract class StreamsTopology<SK, SV, DK, DV> implements Initializable, 
 
   @Override
   public void initialize(ServerContext context) {
-    this.applicationId = appConfig.getString("application.name");
+
   }
 
   @Override

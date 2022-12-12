@@ -23,7 +23,5 @@ streams:
   replication-factor: "3"
   num-standby-replicas: "0"
   num-stream-threads: "3"
-  commit-interval-ms: "1000"
-  processing-guarantee: "exactly_once_v2"
   buffer-config:
     max-bytes: "268435456"  # 256 MB

@@ -11,7 +11,6 @@ import static org.apache.kafka.clients.producer.ProducerConfig.LINGER_MS_CONFIG;
 import static org.apache.kafka.clients.producer.ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.apache.kafka.streams.StreamsConfig.BOOTSTRAP_SERVERS_CONFIG;
-import static org.apache.kafka.streams.StreamsConfig.COMMIT_INTERVAL_MS_CONFIG;
 import static org.apache.kafka.streams.StreamsConfig.DEFAULT_DESERIALIZATION_EXCEPTION_HANDLER_CLASS_CONFIG;
 import static org.apache.kafka.streams.StreamsConfig.DEFAULT_PRODUCTION_EXCEPTION_HANDLER_CLASS_CONFIG;
 import static org.apache.kafka.streams.StreamsConfig.DEFAULT_TIMESTAMP_EXTRACTOR_CLASS_CONFIG;
@@ -38,7 +37,8 @@ public class StreamConfig {
   public Properties packConfig(String clusterName) {
     Properties props = new Properties();
 
-    String applicationId = appConfig.getString("application.name");
+    // the same applicationId, as Replicator stage uses, cannot be used here
+    String applicationId = appConfig.getString("application.name") + "-" + "deduplication";
     LOGGER.info("Using kafka streams application.id={}...", applicationId);
     props.put(APPLICATION_ID_CONFIG, applicationId);
 
@@ -50,10 +50,7 @@ public class StreamConfig {
     props.put(NUM_STANDBY_REPLICAS_CONFIG, numStandbyReplicas);
     int numStreamThreads = appConfig.getInt("streams.num-stream-threads");
     props.put(NUM_STREAM_THREADS_CONFIG, numStreamThreads);
-    int commitIntervalMs = appConfig.getInt("streams.commit-interval-ms");
-    props.put(COMMIT_INTERVAL_MS_CONFIG, commitIntervalMs);
-    String processingGuarantee = appConfig.getString("streams.processing-guarantee");
-    props.put(PROCESSING_GUARANTEE_CONFIG, processingGuarantee);
+    props.put(PROCESSING_GUARANTEE_CONFIG, "exactly_once_v2");
 
     props.put(
         DEFAULT_TIMESTAMP_EXTRACTOR_CLASS_CONFIG,

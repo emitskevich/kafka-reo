@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 public abstract class ConsumerTopology implements Initializable, Shutdownable, Startable {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerTopology.class);
-  private static final Duration POLL_TIMEOUT = Duration.ofSeconds(5);
+  private static final Duration POLL_TIMEOUT = Duration.ofSeconds(1);
 
   private final SimpleScheduler scheduler = SimpleScheduler.createSingleThreaded();
   private final Duration delay;
