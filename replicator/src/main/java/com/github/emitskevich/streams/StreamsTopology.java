@@ -68,8 +68,6 @@ public abstract class StreamsTopology<SK, SV, DK, DV> implements Initializable, 
         .to(destinationTopic, Produced.with(destinationKeySerde, destinationValueSerde));
     Topology topology = streamsBuilder.build();
 
-    LOGGER.info("Topology: {}", topology.describe());
-
     KafkaStreams kafkaStreams = new KafkaStreams(topology, streamProperties);
     kafkaStreams.setUncaughtExceptionHandler(new UncaughtExceptionHandler(REPLACE_THREAD));
     StreamsStateListener listener =
