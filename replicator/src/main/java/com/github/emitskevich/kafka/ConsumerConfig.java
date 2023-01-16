@@ -24,7 +24,7 @@ public class ConsumerConfig {
     this.appConfig = appConfig;
   }
 
-  public Properties packConfig(String clusterName, String groupId) {
+  public Properties packConfig(String clusterName) {
     String bootstrapServers = appConfig.getString("kafka.clusters." + clusterName + ".bootstrap-servers");
 
     Properties props = new Properties();
@@ -36,6 +36,7 @@ public class ConsumerConfig {
     props.put(AUTO_OFFSET_RESET_CONFIG, appConfig.getString("kafka.config.consumer.auto-reset"));
     props.put(ISOLATION_LEVEL_CONFIG, "read_committed");
 
+    String groupId = appConfig.getString("application.name") + "-" + "replication";
     LOGGER.info("Using kafka consumer group.id={}...", groupId);
     props.put(GROUP_ID_CONFIG, groupId);
     return props;

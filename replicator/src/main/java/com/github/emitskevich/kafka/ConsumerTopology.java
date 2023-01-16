@@ -47,10 +47,8 @@ public abstract class ConsumerTopology implements Initializable, Shutdownable, S
 
   @Override
   public void initialize(ServerContext context) throws ExecutionException, InterruptedException {
-    String applicationId = appConfig.getString("application.name");
-
     ConsumerConfig consumerConfig = new ConsumerConfig(appConfig);
-    this.consumer = new KafkaConsumer<>(consumerConfig.packConfig("source", applicationId));
+    this.consumer = new KafkaConsumer<>(consumerConfig.packConfig("source"));
 
     ProducerConfig producerConfig = new ProducerConfig(appConfig);
     this.producer = new KafkaProducer<>(producerConfig.packConfig("destination"));
