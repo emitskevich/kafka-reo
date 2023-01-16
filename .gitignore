@@ -1,6 +1,7 @@
 .gradle
 /build/
 /replicator/build/
+/local/
 
 # Ignore Gradle GUI config
 gradle-app.setting
