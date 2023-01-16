@@ -1,0 +1,13 @@
+services:
+  replicator:
+    image: kafka-replicator-exactly-once
+    build:
+      context: .
+      args:
+        MODULE: replicator
+    environment:
+      - APPLICATION_NAME=replicator-1
+      - KAFKA_CLUSTERS_SOURCE_BOOTSTRAP_SERVERS=source-kafka-cluster:9092
+      - KAFKA_CLUSTERS_SOURCE_TOPIC=source-topic
+      - KAFKA_CLUSTERS_DESTINATION_BOOTSTRAP_SERVERS=destination-kafka-cluster:9092
+      - KAFKA_CLUSTERS_DESTINATION_TOPIC=destination-topic
