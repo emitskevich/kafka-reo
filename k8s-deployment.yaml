@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: replicator-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: replicator
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: replicator
+    spec:
+      containers:
+        - name: replicator-container
+          image: emitskevich/kafka-replicator-exactly-once
+          env:
+            - name: APPLICATION_NAME
+              value: replicator-1
+            - name: KAFKA_CLUSTERS_SOURCE_BOOTSTRAP_SERVERS
+              value: source-kafka-cluster:9092
+            - name: KAFKA_CLUSTERS_SOURCE_TOPIC
+              value: source-topic
+            - name: KAFKA_CLUSTERS_DESTINATION_BOOTSTRAP_SERVERS
+              value: destination-kafka-cluster:9092
+            - name: KAFKA_CLUSTERS_DESTINATION_TOPIC
+              value: destination-topic

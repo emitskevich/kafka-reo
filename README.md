@@ -32,3 +32,9 @@ Or firstly build it from sources:
 docker-compose build
 docker-compose up
 ```
+
+### Kubernetes
+Replace env vars in `k8s-deployment.yml`, then run:
+```
+kubectl apply -f k8s-deployment.yml
+```
