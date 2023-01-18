@@ -1,4 +1,4 @@
-name: push-to-main
+name: dockerhub-deploy
 on:
   push:
     branches:

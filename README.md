@@ -1,4 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![dockerhub-deploy](https://github.com/emitskevich/kafka-replicator-exactly-once/workflows/dockerhub-deploy/badge.svg)](https://github.com/emitskevich/kafka-replicator-exactly-once/actions/workflows/dockerhub-deploy.yaml)
 
 ### Docker run
 ```
