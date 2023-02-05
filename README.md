@@ -5,17 +5,10 @@
 **Kafka** **R**eplicator **E**xactly-**O**nce - the tool to replicate data between 
 **different** Apache Kafka **clusters** with **exactly-once** delivery.
 
-## Quickstart
-Set your bootstrap servers and topic name for both clusters and run a container from DockerHub:
-```
-docker run \
-    -e KAFKA_CLUSTERS_SOURCE_BOOTSTRAP_SERVERS=source-kafka-cluster:9092 \
-    -e KAFKA_CLUSTERS_SOURCE_TOPIC=source-topic \
-    -e KAFKA_CLUSTERS_DESTINATION_BOOTSTRAP_SERVERS=destination-kafka-cluster:9092 \
-    -e KAFKA_CLUSTERS_DESTINATION_TOPIC=destination-topic \
-    emitskevich/kafka-reo
-```
-See other launch options below.
+See [launch options](https://github.com/emitskevich/kafka-reo#launch-options) 
+below for quick start.
+
+
 
 ## The problem
 
@@ -53,7 +46,10 @@ There is [Kafka Improvement Proposal](https://cwiki.apache.org/confluence/displa
 and [good reading about it](https://towardsdatascience.com/exactly-once-semantics-across-multiple-kafka-instances-is-possible-20bf900c29cf), 
 but it exists from 2020 and nothing of it is implemented in 2023.
 
+
+
 ## The solution
+
 ### Theory
 1. Replicate messages to destination cluster with at-least-once guarantee. 
 Wrap the messages with some metadata and apply repartitioning.
@@ -62,7 +58,11 @@ using exactly-once delivery within the destination cluster.
 
 ### Design
 
+
+
+
 ## Launch options
+
 ### Docker run
 ```
 docker run \
@@ -101,6 +101,8 @@ Replace env vars in `k8s-deployment.yml`, then run:
 ```
 kubectl apply -f k8s-deployment.yml
 ```
+
+
 
 ## Best practices
 Launch this app as close to destination cluster as possible. It will make notable 
