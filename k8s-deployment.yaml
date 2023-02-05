@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: replicator-container
-          image: emitskevich/kafka-replicator-exactly-once
+          image: emitskevich/kafka-reo
           env:
             - name: APPLICATION_NAME
               value: replicator-1

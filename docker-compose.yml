@@ -1,6 +1,6 @@
 services:
   replicator:
-    image: emitskevich/kafka-replicator-exactly-once
+    image: emitskevich/kafka-reo
     build:
       context: .
       args:

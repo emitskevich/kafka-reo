@@ -1,2 +1,2 @@
-rootProject.name = "kafka-replicator-exactly-once"
+rootProject.name = "kafka-reo"
 include("replicator")
