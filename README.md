@@ -60,8 +60,6 @@ Wrap the messages with some metadata and apply repartitioning.
 1. Apply deduplication, unwrap and restore initial partitioning, 
 using exactly-once delivery within the destination cluster.
 
-See "Design" below for details.
-
 ### Design
 
 ## Launch options
