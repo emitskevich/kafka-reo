@@ -54,6 +54,7 @@ and [good reading about it](https://towardsdatascience.com/exactly-once-semantic
 but it exists from 2020 and nothing of it is implemented in 2023.
 
 ## The solution
+### Theory
 1. Replicate messages to destination cluster with at-least-once guarantee. 
 Wrap the messages with some metadata and apply repartitioning.
 1. Apply deduplication, unwrap and restore initial partitioning, 
@@ -61,7 +62,7 @@ using exactly-once delivery within the destination cluster.
 
 See "Design" below for details.
 
-## Design
+### Design
 
 ## Launch options
 ### Docker run
