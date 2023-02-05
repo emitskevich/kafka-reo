@@ -64,7 +64,7 @@ See "Design" below for details.
 ## Design
 
 ## Launch options
-#### Docker run
+### Docker run
 ```
 docker run \
     -e KAFKA_CLUSTERS_SOURCE_BOOTSTRAP_SERVERS=source-kafka-cluster:9092 \
@@ -85,7 +85,7 @@ docker run \
     emitskevich/kafka-reo
 ```
 
-#### Docker compose
+### Docker compose
 Replace env vars in `docker-compose.yml`, then run:
 ```
 docker-compose up
@@ -97,13 +97,13 @@ docker-compose build
 docker-compose up
 ```
 
-#### Kubernetes
+### Kubernetes
 Replace env vars in `k8s-deployment.yml`, then run:
 ```
 kubectl apply -f k8s-deployment.yml
 ```
 
-### Best practices
+## Best practices
 Launch this app as close to destination cluster as possible. It will make notable 
 performance boost, since the step of deduplication uses transactional API 
 of destination cluster and is therefore latency-sensible process.
