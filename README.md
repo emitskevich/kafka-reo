@@ -19,7 +19,7 @@ See other launch options below.
 
 ## The problem
 
-#### Why we need replication between clusters
+### Why we need replication between clusters
 There are different needs, especially for multi-region systems:
 1. Making a copy of data for disaster recovery purposes.
 1. Gathering data from different regions to the central one for aggregation. 
@@ -28,14 +28,14 @@ There are different needs, especially for multi-region systems:
 
 There are more in [Cofluent docs](https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/index.html#use-cases-and-architectures).
 
-#### What tools exist for cross-cluster replication
+### What tools exist for cross-cluster replication
 1. [Mirrormaker](https://github.com/apache/kafka/tree/trunk/connect/mirror) from Apache Kafka.
 1. [Replicator](https://docs.confluent.io/platform/current/multi-dc-deployments/replicator/replicator-quickstart.html) from Confluent.
 1. Simple self-made "consume-produce in the loop" application.
 
 All these tools can provide only either at-most-once or at-least-once delivery. 
 
-#### What about exactly-once
+### What about exactly-once
 Apache Kafka has [transactional API](https://www.confluent.io/blog/transactions-apache-kafka/), 
 which can be used for exactly-once delivery. The fundamental idea is to commit consumer offset 
 and producer records in a single transaction. Kafka Streams uses it to provide high-level 
@@ -45,7 +45,7 @@ with one config option.
 
 This works only within the same Kafka cluster.
 
-#### What's not enough
+### What's not enough
 Replication tools from the list above are not compatible with exactly-once delivery.
 The reason is in such case consumer offsets and producer records live in different clusters. 
 Apache Kafka can't wrap operations with different clusters in one transaction.
@@ -105,5 +105,5 @@ kubectl apply -f k8s-deployment.yml
 
 ### Best practices
 Launch this app as close to destination cluster as possible. It will make notable 
-performance boost, because the step of deduplication uses transactional API 
+performance boost, since the step of deduplication uses transactional API 
 of destination cluster and is therefore latency-sensible process.
