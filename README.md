@@ -60,7 +60,7 @@ but does the job.
 
 ### Design schema
 ![design-schema-v2.png](design-schema-v2.png)
-There is also `design-schema.drawio` in the project root.
+There is screenshot of `design-schema.drawio` from the project root.
 
 
 
