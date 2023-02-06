@@ -56,6 +56,9 @@ Wrap the messages with some metadata and apply repartitioning.
 1. Apply deduplication, unwrap and restore initial partitioning, 
 using exactly-once delivery within the destination cluster.
 
+It requires more than 2x resources as compared with just at-least-once replication, 
+but does the job.
+
 ### Design schema
 ![design-schema-v2.png](design-schema-v2.png)
 There is also `design-schema.drawio` in the project root.
