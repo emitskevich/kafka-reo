@@ -19,10 +19,10 @@ There are different needs, especially for multi-region systems:
 1. Data sharing between organizations.
 1. ...
 
-There are more in [Cofluent docs](https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/index.html#use-cases-and-architectures).
+There are more in [Confluent docs](https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/index.html#use-cases-and-architectures).
 
 ### What tools exist for cross-cluster replication
-1. [Mirrormaker](https://github.com/apache/kafka/tree/trunk/connect/mirror) from Apache Kafka.
+1. [MirrorMaker](https://github.com/apache/kafka/tree/trunk/connect/mirror) from Apache Kafka.
 1. [Replicator](https://docs.confluent.io/platform/current/multi-dc-deployments/replicator/replicator-quickstart.html) from Confluent.
 1. Simple self-made "consume-produce in the loop" application.
 
@@ -57,7 +57,7 @@ Wrap the messages with some metadata and apply repartitioning.
 using exactly-once delivery within the destination cluster.
 
 ### Design
-
+![img.png](design.png)
 
 
 
