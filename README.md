@@ -59,7 +59,8 @@ It requires more than 2x resources as compared with just at-least-once replicati
 but does the job.
 
 ### Design schema
-![design-schema-v2.png](design-schema-v2.png)
+![design-schema-v2.png](https://raw.githubusercontent.com/emitskevich/kafka-reo/main/design-schema-v2.png)
+
 There is screenshot of `design-schema.drawio` from the project root.
 
 
@@ -67,6 +68,7 @@ There is screenshot of `design-schema.drawio` from the project root.
 ## Launch options
 
 ### Docker run
+Set your bootstrap servers and topic name for both clusters and run:
 ```
 docker run \
     -e KAFKA_CLUSTERS_SOURCE_BOOTSTRAP_SERVERS=source-kafka-cluster:9092 \
