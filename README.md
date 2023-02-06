@@ -57,7 +57,7 @@ Wrap the messages with some metadata and apply repartitioning.
 using exactly-once delivery within the destination cluster.
 
 ### Design schema
-![img.png](design-schema.png)
+![design-schema-v2.png](design-schema-v2.png)
 There is also `design-schema.drawio` in the project root.
 
 
