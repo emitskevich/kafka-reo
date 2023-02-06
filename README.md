@@ -61,7 +61,7 @@ but does the job.
 ### Design schema
 ![design-schema-v2.png](https://raw.githubusercontent.com/emitskevich/kafka-reo/main/design-schema-v2.png)
 
-There is screenshot of `design-schema.drawio` from the project root.
+This is screenshot of `design-schema.drawio` from the project root.
 
 
 
