@@ -2,8 +2,8 @@
 [![dockerhub-deploy](https://github.com/emitskevich/kafka-reo/workflows/dockerhub-deploy/badge.svg)](https://github.com/emitskevich/kafka-reo/actions/workflows/dockerhub-deploy.yml)
 
 ## What is it
-**Kafka** **R**eplicator **E**xactly-**O**nce - the tool to replicate data between 
-**different** Apache Kafka **clusters** with **exactly-once** delivery.
+**Kafka** **R**eplicator **E**xactly-**O**nce - the tool to replicate data 
+with **exactly-once** guarantee between **different clusters** of Apache Kafka.
 
 See [launch options](https://github.com/emitskevich/kafka-reo#launch-options) 
 below for quick start.
@@ -12,14 +12,13 @@ below for quick start.
 
 ## The problem
 
-### Why we need replication between clusters
-There are different needs, especially for multi-region systems:
+### Why one need replication between clusters
 1. Making a copy of data for disaster recovery purposes.
 1. Gathering data from different regions to the central one for aggregation. 
 1. Data sharing between organizations.
 1. ...
 
-There are more in [Confluent docs](https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/index.html#use-cases-and-architectures).
+More can be found in [Confluent docs](https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/index.html#use-cases-and-architectures).
 
 ### What tools exist for cross-cluster replication
 1. [MirrorMaker](https://github.com/apache/kafka/tree/trunk/connect/mirror) from Apache Kafka.
