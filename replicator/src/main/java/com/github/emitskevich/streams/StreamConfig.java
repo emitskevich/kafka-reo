@@ -37,8 +37,7 @@ public class StreamConfig {
   public Properties packConfig(String clusterName) {
     Properties props = new Properties();
 
-    // the same applicationId, as Replicator stage uses, cannot be used here
-    String applicationId = appConfig.getString("application.name") + "-" + "deduplication";
+    String applicationId = appConfig.getString("application.name");
     LOGGER.info("Using kafka streams application.id={}...", applicationId);
     props.put(APPLICATION_ID_CONFIG, applicationId);
 

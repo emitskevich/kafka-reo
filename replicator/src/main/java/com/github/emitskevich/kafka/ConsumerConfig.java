@@ -36,7 +36,7 @@ public class ConsumerConfig {
     props.put(AUTO_OFFSET_RESET_CONFIG, appConfig.getString("kafka.config.consumer.auto-reset"));
     props.put(ISOLATION_LEVEL_CONFIG, "read_committed");
 
-    String groupId = appConfig.getString("application.name") + "-" + "replication";
+    String groupId = appConfig.getString("application.name");
     LOGGER.info("Using kafka consumer group.id={}...", groupId);
     props.put(GROUP_ID_CONFIG, groupId);
     return props;
