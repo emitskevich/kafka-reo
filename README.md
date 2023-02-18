@@ -18,14 +18,14 @@ below for quick start.
 1. Data sharing between organizations.
 1. ...
 
-More can be found in [Confluent docs](https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/index.html#use-cases-and-architectures).
+More in [Confluent docs](https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/index.html#use-cases-and-architectures).
 
 ### What tools exist for cross-cluster replication
 1. [MirrorMaker](https://github.com/apache/kafka/tree/trunk/connect/mirror) from Apache Kafka.
 1. [Replicator](https://docs.confluent.io/platform/current/multi-dc-deployments/replicator/replicator-quickstart.html) from Confluent.
 1. Simple self-made "consume-produce in the loop" application.
 
-All these tools can provide only either at-most-once or at-least-once delivery. 
+These tools provide either at-most-once or at-least-once delivery. 
 
 ### What about exactly-once
 Apache Kafka has [transactional API](https://www.confluent.io/blog/transactions-apache-kafka/), 
@@ -55,8 +55,8 @@ Wrap the messages with some metadata and apply repartitioning.
 1. Apply deduplication, unwrap and restore initial partitioning, 
 using exactly-once delivery within the destination cluster.
 
-It requires more than 2x resources as compared with just at-least-once replication, 
-but does the job.
+As a drawback, it requires about 2 times more processing as compared with usual 
+at-least-once replication.
 
 ### Design schema
 ![design-schema-v2.png](https://raw.githubusercontent.com/emitskevich/kafka-reo/main/design-schema-v2.png)
@@ -110,6 +110,6 @@ kubectl apply -f k8s-deployment.yml
 
 
 ## Best practices
-Launch this app as close to destination cluster as possible. It will make notable 
-performance boost, since the step of deduplication uses transactional API 
-of destination cluster and is therefore latency-sensible process.
+Launch as close to destination cluster as possible. It has notable performance boost, 
+since the step of deduplication uses transactional API of destination cluster and is 
+latency-sensible.
