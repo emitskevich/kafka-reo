@@ -60,7 +60,6 @@ public class AppConfig {
 
   public boolean hasEntry(String name) {
     return get(presence, name, this::hasEntryUncached);
-
   }
 
   private <T> T get(Map<String, T> settings, String key, Function<String, T> loader) {

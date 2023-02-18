@@ -9,6 +9,7 @@ kafka:
     destination:
       bootstrap-servers: "localhost-destination:9092"
       topic: "destination-topic"
+#      topic-proxy: ""
   config:
     consumer:
       fetch-min-bytes: "1048576"  # 1MB

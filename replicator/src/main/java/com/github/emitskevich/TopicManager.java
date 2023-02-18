@@ -12,6 +12,9 @@ public class TopicManager {
   }
 
   public static String getProxyTopic(AppConfig appConfig) {
+    if (appConfig.hasEntry("kafka.clusters.destination.topic-proxy")) {
+      return appConfig.getString("kafka.clusters.destination.topic-proxy");
+    }
     return appConfig.getString("kafka.clusters.destination.topic") + "-proxy";
   }
 
