@@ -1,4 +1,4 @@
-FROM eclipse-temurin:18-jre
+FROM eclipse-temurin:21-jre
 
 ARG MODULE
 ENV MODULE $MODULE
