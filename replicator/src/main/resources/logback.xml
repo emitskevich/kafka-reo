@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
-  <variable name="LOG_LEVEL" value="${LOG_LEVEL:-DEBUG}" />
+  <variable name="LOG_LEVEL" value="${LOG_LEVEL:-INFO}" />
 
   <appender name="STDOUT"
     class="ch.qos.logback.core.ConsoleAppender">
@@ -8,9 +8,6 @@
       <pattern>%date{"yyyy-MM-dd'T'HH:mm:ss,SSSXXX", UTC} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
-
-  <logger level="WARN" name="org.apache.kafka"/>
-  <logger level="ERROR" name="com.adx.streams.utils.AmountExtractor"/>
 
   <root level="${LOG_LEVEL}">
     <appender-ref ref="STDOUT"/>
