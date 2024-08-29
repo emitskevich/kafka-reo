@@ -18,7 +18,7 @@ public class StreamsStateListener implements StateListener {
   public StreamsStateListener(Supplier<State> stateSupplier) {
     this.stateSupplier = stateSupplier;
     Duration delay = Duration.ofSeconds(30);
-    SimpleScheduler scheduler = SimpleScheduler.createSingleThreaded();
+    SimpleScheduler scheduler = SimpleScheduler.createSingleThreaded(LOGGER);
     scheduler.scheduleWithFixedDelay(this::logWaiting, delay);
   }
 
