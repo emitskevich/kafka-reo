@@ -28,7 +28,7 @@ public abstract class ConsumerTopology implements Initializable, Shutdownable, S
   private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerTopology.class);
   private static final Duration POLL_TIMEOUT = Duration.ofSeconds(1);
 
-  private final SimpleScheduler scheduler = SimpleScheduler.createSingleThreaded();
+  private final SimpleScheduler scheduler = SimpleScheduler.createSingleThreaded(LOGGER);
   private final Duration delay;
   protected final AppConfig appConfig;
 
